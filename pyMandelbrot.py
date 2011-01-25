@@ -4,8 +4,9 @@ from tkFileDialog import *
 import csv
 import png
 
-H = 500
-iterations = 30
+H = 500 #number of different colors in list to use
+iterations = 1000 #high for greater detail
+colorDensity = 30 #controls how close together the colors are, the higher the closer
 ColorList = []
 
 #Majority of processing work completed here.
@@ -88,7 +89,7 @@ def colorList():
 
 #Turns a number into a colour for the renderer to display
 def toColor(a):
-        a=a*85
+        a=a*colorDensity
         a = int(a)%H
         try:
                 a = ColorList[int(a)]
@@ -137,7 +138,7 @@ x = float(raw_input("X position:"))
 y = float(raw_input("Y position:"))
 zoom = float(raw_input("Zoom level:"))
 
-#at zoom level 1, 1 pixel is 
+
 ratio = 100
 pixelSize = float(1)/float(ratio)/zoom
 left = x-((w/2)*pixelSize)
@@ -145,14 +146,14 @@ right = x+((w/2)*pixelSize)
 top = y+((h/2)*pixelSize)
 bottom = y-((h/2)*pixelSize)
 print pixelSize,left,right,top,bottom
-#1/(100/zoomLevel)
+
 wVals = widthVals(pixelSize, left, right,w)
 hVals = heightVals(pixelSize, top, bottom,h)
 
 mainArray = []
 
-
-
+lastPercentage = 0
+print "0%"
 for a in hVals:
         rowArray = []
         for b in wVals:
@@ -162,10 +163,12 @@ for a in hVals:
                 else:
                         col = toColor(v(z,n))
                 rowArray = rowArray + col
-                #print n, z, col
         mainArray.append(rowArray)
         
-
+        curPerc = 100-(int((a-bottom)/(top-bottom)*100))
+        if curPerc>=lastPercentage+1:
+            lastPercentage=curPerc
+            print str(lastPercentage)+"%"
 f = open(saveFile, 'wb')
 w = png.Writer(w, h)
 w.write(f, mainArray)

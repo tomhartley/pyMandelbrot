@@ -12,20 +12,17 @@ ColorList = []
 #Majority of processing work completed here.
 #Calculates how close a point is to the mandelbrot set
 def mandelbrot(real, imag):
-        z = complex(0,0)
+        z = 0j
         c = complex(real, imag)
         dropOutLevel = 0
-        for i in range(0, iterations):
+        for i in range(iterations):
                 if abs(z) < 2:
                         z = z**2 + c
                         dropOutLevel += 1
                 else:
                         break
-
-        z = z**2 + c
-        z = z**2 + c
-        z = z**2 + c
-        z = z**2 + c
+        for a in range(4): #Removes most imperfections in the image
+            z = z**2 + c
         return dropOutLevel,z
 
 #Interpolates (Smooths) between 2 different colours

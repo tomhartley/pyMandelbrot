@@ -14,16 +14,14 @@ ColorList = []
 def mandelbrot(real, imag):
         z = 0j
         c = complex(real, imag)
-        dropOutLevel = 0
         for i in range(iterations):
                 if abs(z) < 2:
                         z = z**2 + c
-                        dropOutLevel += 1
                 else:
                         break
         for a in range(4): #Removes most imperfections in the image
             z = z**2 + c
-        return dropOutLevel,z
+        return i,z
 
 #Interpolates (Smooths) between 2 different colours
 def interpolateC(color,endColor,left):
